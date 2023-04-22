@@ -1,16 +1,19 @@
-//jshint esversion:6
+import express from "express";
+import bodyParser from "body-parser";
+import ejs from "ejs";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const ejs = require("ejs");
-const { text } = require("body-parser");
-const lodash = require("lodash");
-const mongoose = require("mongoose");
-mongoose.set('strictQuery', false);
-
+mongoose.set("strictQuery", false);
+dotenv.config();
 const app = express();
 
-mongoose.connect("mongodb://127.0.0.1:27017/blogPostsDB");
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+connectDB();
 
 const blogPostSchema = new mongoose.Schema({
   title: String,
@@ -19,21 +22,16 @@ const blogPostSchema = new mongoose.Schema({
 
 const BlogPost = new mongoose.model("blogPost", blogPostSchema);
 
-app.set("view engine", "ejs");
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
 app.get("/", (req, res) => {
-  BlogPost.find({}, (err, docs)=>{
-    if(!err){
+  BlogPost.find({}, (err, docs) => {
+    if (!err) {
       res.render("home", { posts: docs });
     }
   });
 });
 
 app.get("/about", (req, res) => {
-  res.render("about", { aboutContent: aboutContent });
+  res.render("about", { aboutContent: "Hello We Are Web Developer." });
 });
 
 app.get("/contact", (req, res) => {
@@ -45,13 +43,11 @@ app.get("/compose", (req, res) => {
 });
 
 app.get("/posts/:blogID", (req, res) => {
-  
-  BlogPost.findOne({_id: req.params.blogID}, (err, post)=> {
-    if(!err){
+  BlogPost.findOne({ _id: req.params.blogID }, (err, post) => {
+    if (!err) {
       res.render("post", { requestedPost: post });
     }
   });
-
 });
 
 app.post("/compose", (req, res) => {
