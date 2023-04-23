@@ -1,19 +1,20 @@
 import express from "express";
-import bodyParser from "body-parser";
-import ejs from "ejs";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import userRouters from "./routes/userRoutes.js";
+import cors from "cors";
 
-mongoose.set("strictQuery", false);
 dotenv.config();
+connectDB();
 const app = express();
+const port = process.env.PORT;
 
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 app.use(express.static("public"));
 
-connectDB();
+app.use("/api/user", userRouters);
 
 const blogPostSchema = new mongoose.Schema({
   title: String,
@@ -64,6 +65,6 @@ app.post("/compose", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(3000, function () {
-  console.log("Server started on port 3000");
+app.listen(port, function () {
+  console.log("Server started on port: " + port);
 });
