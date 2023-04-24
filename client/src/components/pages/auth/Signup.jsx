@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 import Layout from "../../layout/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -12,7 +12,9 @@ const SignUp = () => {
       <Formik
         initialValues={{ fullName: "", email: "", password: "" }}
         onSubmit={async (values) => {
-          await axios.post(`http://127.0.0.1:8080/api/user/signup`, { values });
+          await axios.post(`${import.meta.env.VITE_BASE_URL}/api/user/signup`, {
+            values,
+          });
           navigate("/login");
         }}
       >
@@ -24,13 +26,12 @@ const SignUp = () => {
               </h2>
               <p className="mt-2 text-base text-gray-600 dark:text-gray-300">
                 Already have an account?{" "}
-                <a
-                  href="#"
-                  title=""
+                <Link
+                  to="/login"
                   className="font-medium text-indigo-600 transition-all duration-200 hover:text-indigo-700 hover:underline focus:text-indigo-700"
                 >
                   Sign In
-                </a>
+                </Link>
               </p>
               <Form className="mt-8">
                 <div className="space-y-5">

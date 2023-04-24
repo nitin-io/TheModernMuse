@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import Layout from "../../layout/Layout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../context/auth";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  console.log(useAuth());
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth?.token) navigate("/");
+  }, [auth?.token]);
+
   return (
     <>
       <Layout>
@@ -12,7 +23,19 @@ const Login = () => {
             email: "",
             password: "",
           }}
-          onSubmit={async () => {}}
+          onSubmit={async (values) => {
+            const { data } = await axios.post(
+              `${import.meta.env.VITE_BASE_URL}/api/user/signin`,
+              { values }
+            );
+            if (data.success) {
+              setAuth({ user: data.user, token: data.token });
+              localStorage.setItem(
+                JSON.stringify("auth", { user: data.user, token: data.token })
+              );
+              toast.success("Loged In Successfully");
+            }
+          }}
         >
           <div className="flex items-center justify-center">
             <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -75,24 +98,10 @@ const Login = () => {
                     </div>
                     <div>
                       <button
-                        type="button"
+                        type="submit"
                         className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
                       >
-                        Get started
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="ml-2 h-4 w-4"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                          />
-                        </svg>
+                        Sign In
                       </button>
                     </div>
                   </div>

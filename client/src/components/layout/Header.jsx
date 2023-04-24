@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { TfiWrite } from "react-icons/tfi";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Header = () => {
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
   return (
     <>
       <nav class="relative px-8 py-4 flex justify-between items-center border-y border-gray-400 dark:border-gray-700">
@@ -10,8 +12,12 @@ const Header = () => {
           class="text-3xl font-bold leading-none flex items-center space-x-4"
           href="#"
         >
-          <span></span>
-          <span class="text-gray-600 dark:text-gray-300 text-xl">
+          <span
+            class="text-gray-600 dark:text-gray-300 text-xl"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             TheMordernMuse
           </span>
         </a>
@@ -28,24 +34,6 @@ const Header = () => {
           </button>
         </div>
         <ul class="hidden lg:flex lg:items-center lg:justify-end grow mr-4">
-          <li>
-            <a
-              class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-4 py-2"
-              href="#"
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <Link
-              to={"/write"}
-              class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-4 py-2"
-              href="#"
-              title="Write"
-            >
-              Write
-            </Link>
-          </li>
           <li>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -71,24 +59,60 @@ const Header = () => {
               />
             </div>
           </li>
+          {auth?.token ? (
+            <li>
+              <Link
+                to={"/write"}
+                class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-4 py-2"
+                href="#"
+                title="Write"
+              >
+                Write
+              </Link>
+            </li>
+          ) : (
+            <div className="space-x-2 hidden lg:block">
+              <button
+                className="rounded-md border border-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-indigo-600 hover:bg-indigo-500 hover:text-white"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/signup");
+                }}
+                className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500 "
+              >
+                SignUp
+              </button>
+            </div>
+          )}
         </ul>
-        <div class="hidden lg:block">
-          <div class="flex items-center space-x-2">
-            <img
-              class="inline-block w-12 h-12 rounded-full"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
-              alt="John Doe"
-            />
-            <span class="flex flex-col">
-              <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                John Doe
+        {auth?.token && (
+          <div class="hidden lg:block">
+            <div class="flex items-center space-x-2">
+              <img
+                class="inline-block w-12 h-12 rounded-full"
+                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
+                alt="John Doe"
+              />
+              <span class="flex flex-col">
+                <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  {auth?.user?.fullName}
+                </span>
+                <Link
+                  to="/profile"
+                  class="text-sm font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
+                >
+                  View Profile
+                </Link>
               </span>
-              <span class="text-sm font-medium text-gray-500 dark:text-gray-400 cursor-pointer">
-                View Profile
-              </span>
-            </span>
+            </div>
           </div>
-        </div>
+        )}
       </nav>
     </>
   );

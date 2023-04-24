@@ -40,7 +40,8 @@ export const signUpController = async (req, res) => {
 
 // Sign In
 export const signInController = async (req, res) => {
-  const { email, password } = req.body;
+  console.log(req.body);
+  const { email, password } = req.body.values;
 
   try {
     // Input Validation
@@ -71,6 +72,7 @@ export const signInController = async (req, res) => {
         email: user.email,
       },
       token,
+      success: true,
     });
   } catch (error) {}
 };

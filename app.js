@@ -2,8 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import userRouters from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 import cors from "cors";
+import morgan from "morgan";
 
 dotenv.config();
 connectDB();
@@ -12,9 +14,11 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev"));
 app.use(express.static("public"));
 
-app.use("/api/user", userRouters);
+app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 
 const blogPostSchema = new mongoose.Schema({
   title: String,
