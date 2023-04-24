@@ -5,6 +5,7 @@ const postSchema = new Schema(
     user: { type: mongoose.ObjectId, ref: "User" },
     title: { type: String, required: true },
     content: { type: String, required: true },
+    coverImage: { data: Buffer, contentType: String },
   },
   { timestamps: true }
 );

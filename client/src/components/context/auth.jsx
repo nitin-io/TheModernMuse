@@ -13,14 +13,14 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("auth"));
-    if (data) {
+    if (data?.auth) {
       setAuth(data);
     }
   }, []);
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>
-      ({children})
+      {children}
     </AuthContext.Provider>
   );
 };
