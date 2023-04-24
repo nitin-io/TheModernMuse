@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 const Header = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
   const navigate = useNavigate();
   return (
     <>
@@ -56,7 +56,7 @@ const Header = () => {
           {auth?.token ? (
             <li>
               <Link
-                to={"/write"}
+                to={"/user/write"}
                 className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-4 py-2"
                 title="Write"
               >

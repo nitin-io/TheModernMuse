@@ -2,11 +2,8 @@ import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import PostModel from "../models/postModel.js";
 import fs from "fs";
-import UserModel from "../models/userModel.js";
 
 export const newPostController = async (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
   const { title, content } = req.body;
   const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -27,6 +24,15 @@ export const newPostController = async (req, res) => {
       },
     });
     res.status(201).json({ message: "New post created successfully" });
+
+    fs.unlink(req.file.path, (err) => {
+      if (err) {
+        console.log(err);
+        return;
+      } else {
+        return;
+      }
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error while adding new post" });
@@ -50,7 +56,6 @@ export const fetchImage = async (req, res) => {
     const { coverImage } = await PostModel.findById(req.params.pid).select(
       "coverImage"
     );
-    console.log(coverImage);
     res.set("Content-Type", coverImage.contentType);
     return res.status(200).send(coverImage.data);
   } catch (error) {
@@ -58,3 +63,10 @@ export const fetchImage = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const updatePostController = async (req, res) => {
+  try {
+  } catch (error) {}
+};
+
+export const fetchUserPost = async (req, res) => {};

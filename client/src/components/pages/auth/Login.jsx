@@ -31,7 +31,8 @@ const Login = () => {
             if (data.success) {
               setAuth({ user: data.user, token: data.token });
               localStorage.setItem(
-                JSON.stringify("auth", { user: data.user, token: data.token })
+                "auth",
+                JSON.stringify({ user: data.user, token: data.token })
               );
               toast.success("Loged In Successfully");
             }

@@ -3,6 +3,7 @@ import Login from "./components/pages/auth/Login";
 import Home from "./components/pages/Home";
 import SignUp from "./components/pages/auth/Signup";
 import Write from "./components/pages/User/Write";
+import UserRoutes from "./routes/UserRoutes";
 
 function App() {
   return (
@@ -10,7 +11,18 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/write" element={<Write />} />
+      <Route path="/user" element={<UserRoutes />}>
+        <Route path="write" element={<Write />} />
+      </Route>
+      <Route
+        path="/*"
+        element={
+          <>
+            <h1>404!</h1>
+            <p>Page Not Found!</p>
+          </>
+        }
+      />
     </Routes>
   );
 }

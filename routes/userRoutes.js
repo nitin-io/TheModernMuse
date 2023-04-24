@@ -17,4 +17,9 @@ router.get("/testing", verifySignIn, (req, res) => {
   return res.status(200).json({ ok: true });
 });
 
+// Verify User
+router.get("/authentication", verifySignIn, (req, res) => {
+  return res.json({ ok: true });
+});
+
 export default router;
