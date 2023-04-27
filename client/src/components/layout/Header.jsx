@@ -97,7 +97,7 @@ const Header = () => {
                   {auth?.user?.fullName}
                 </span>
                 <Link
-                  to="/profile"
+                  to="/user/profile"
                   className="text-sm font-medium text-gray-500 dark:text-gray-400 cursor-pointer"
                 >
                   View Profile

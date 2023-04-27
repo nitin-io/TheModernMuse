@@ -40,7 +40,6 @@ export const signUpController = async (req, res) => {
 
 // Sign In
 export const signInController = async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body.values;
 
   try {

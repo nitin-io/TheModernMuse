@@ -3,6 +3,7 @@
 A Blogging Web Application
 
 ![homepage](./public/TheModernMuse-Screenshot-Homepage.png)
+`Status: Currently under development`
 
 ## Live @ [Netlify](https://chic-sorbet-938a35.netlify.app/)
 

@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import Layout from "../../layout/Layout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  console.log(useAuth());
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
 
@@ -24,17 +23,22 @@ const Login = () => {
             password: "",
           }}
           onSubmit={async (values) => {
-            const { data } = await axios.post(
-              `${import.meta.env.VITE_BASE_URL}/api/user/signin`,
-              { values }
-            );
-            if (data.success) {
-              setAuth({ user: data.user, token: data.token });
-              localStorage.setItem(
-                "auth",
-                JSON.stringify({ user: data.user, token: data.token })
+            try {
+              const { data } = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/api/user/signin`,
+                { values }
               );
-              toast.success("Loged In Successfully");
+              if (data.success) {
+                setAuth({ user: data.user, token: data.token });
+                localStorage.setItem(
+                  "auth",
+                  JSON.stringify({ user: data.user, token: data.token })
+                );
+                navigate("/user/profile");
+                toast.success("Loged In Successfully");
+              }
+            } catch (err) {
+              console.log(err);
             }
           }}
         >
