@@ -3,6 +3,7 @@ import { verifySignIn } from "../utils/auth.js";
 import {
   fetchImage,
   fetchPostController,
+  fetchUserBlogs,
   newPostController,
 } from "../controllers/postControllers.js";
 import multer from "multer";
@@ -22,5 +23,8 @@ router.get("/posts", fetchPostController);
 
 // Read Image
 router.get("/image/:pid", fetchImage);
+
+// Read User's own posts
+router.get("/user/posts", verifySignIn, fetchUserBlogs);
 
 export default router;

@@ -69,4 +69,16 @@ export const updatePostController = async (req, res) => {
   } catch (error) {}
 };
 
-export const fetchUserPost = async (req, res) => {};
+export const fetchUserBlogs = async (req, res) => {
+  try {
+    const posts = await PostModel.find({ user: req.user.id }).select(
+      "-coverImage"
+    );
+    return res.status(200).json({ posts });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Error while fetching user's blogs" });
+  }
+};

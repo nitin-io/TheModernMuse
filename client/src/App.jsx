@@ -5,6 +5,7 @@ import SignUp from "./components/pages/auth/Signup";
 import Write from "./components/pages/User/Write";
 import UserRoutes from "./routes/UserRoutes";
 import Profile from "./components/pages/User/Profile";
+import UserBlogs from "./components/pages/User/UserBlogs";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/user" element={<UserRoutes />}>
         <Route path="write" element={<Write />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="blogs" element={<UserBlogs />} />
       </Route>
       <Route
         path="/*"

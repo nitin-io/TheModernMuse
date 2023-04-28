@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../../context/auth";
 import Layout from "../../layout/Layout";
+import UserMenu from "../../layout/UserMenu";
 
 const Profile = () => {
   const [auth, setAuth] = useAuth();
@@ -8,10 +9,11 @@ const Profile = () => {
   return (
     <>
       <Layout>
+        <UserMenu />
         {auth?.token ? (
           <div>
             <img
-              class="inline-block w-14 h-14 rounded-full"
+              className="inline-block w-14 h-14 rounded-full"
               src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
               alt="Dan_Abromov"
             />
